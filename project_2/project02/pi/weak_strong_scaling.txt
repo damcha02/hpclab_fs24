@@ -1,0 +1,4 @@
+2. . Perform a weak and strong scaling study of your implementations and interpret the results in your
+report. In particular, discuss the observed differences between the version using critical directive
+or the reduction clause
+
