@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
       local_sum += 4.0 / (1.0 + x*x);
       
     }
-    printf("Thread %d\n", omp_get_thread_num());
+    // printf("Thread %d\n", omp_get_thread_num());
     
     #pragma omp critical
     {
@@ -41,5 +41,10 @@ int main(int argc, char *argv[]) {
 
   printf("pi = \%.15f, N = %9ld, time = %.8f secs\n", pi, N, time);
 
+  #pragma omp parallel
+  #pragma omp master //can use single instead of master
+  {
+    printf("nUmBeR oF tHrEAdS: %d\n", omp_get_num_threads());
+  }
   return 0;
 }

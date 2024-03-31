@@ -2,3 +2,84 @@
 report. In particular, discuss the observed differences between the version using critical directive
 or the reduction clause
 
+
+2.1 strong scaling 
+
+-----------------------------------------------
+Running Pi SERIAL for reference and to compare
+pi = 3.141592653589764, N =   1000000, time = 0.00154174 secs
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=1
+pi = 3.141592653589764, N =   1000000, time = 0.00157436 secs
+nUmBeR oF tHrEAdS: 1
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=2
+pi = 3.141592653589899, N =   1000000, time = 0.00085210 secs
+nUmBeR oF tHrEAdS: 2
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=4
+pi = 3.141592653589876, N =   1000000, time = 0.00083750 secs
+nUmBeR oF tHrEAdS: 4
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=8
+pi = 3.141592653589871, N =   1000000, time = 0.03754092 secs
+nUmBeR oF tHrEAdS: 8
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=16
+pi = 3.141592653589872, N =   1000000, time = 0.04775092 secs
+nUmBeR oF tHrEAdS: 16
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=32
+pi = 3.141592653589874, N =   1000000, time = 0.00291824 secs
+nUmBeR oF tHrEAdS: 32
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=64
+pi = 3.141592653589877, N =   1000000, time = 0.00527979 secs
+nUmBeR oF tHrEAdS: 64
+-----------------------------------------------
+Running Pi CRITICAL with OMP_NUM_THREADS=128
+pi = 3.141592653589876, N =   1000000, time = 0.02492015 secs
+nUmBeR oF tHrEAdS: 128
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=1
+pi = 3.141592653589764, N =   1000000, time = 0.00160433 secs
+nUmBeR oF tHrEAdS: 1
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=2
+pi = 3.141592653589899, N =   1000000, time = 0.00093078 secs
+nUmBeR oF tHrEAdS: 2
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=4
+pi = 3.141592653589876, N =   1000000, time = 0.00079984 secs
+nUmBeR oF tHrEAdS: 4
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=8
+pi = 3.141592653589871, N =   1000000, time = 0.00089605 secs
+nUmBeR oF tHrEAdS: 8
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=16
+pi = 3.141592653589873, N =   1000000, time = 0.03075257 secs
+nUmBeR oF tHrEAdS: 16
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=32
+pi = 3.141592653589875, N =   1000000, time = 0.00191422 secs
+nUmBeR oF tHrEAdS: 32
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=64
+pi = 3.141592653589878, N =   1000000, time = 0.00343264 secs
+nUmBeR oF tHrEAdS: 64
+-----------------------------------------------
+Running Pi REDUCTION with OMP_NUM_THREADS=128
+pi = 3.141592653589875, N =   1000000, time = 0.00604501 secs
+nUmBeR oF tHrEAdS: 128
+-----------------------------------------------
+
+
+well what can i say
+critical goes fastest with 4 threads 
+reduction goes fastest with 4 threads 
+maybe this is just on the local machine and on euler is different, we will check this out aswell
+
+
+2.2 weak scaling
+we made graphs what else you want 

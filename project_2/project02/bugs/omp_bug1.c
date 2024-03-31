@@ -18,15 +18,20 @@ int main(int argc, char *argv[]) {
   /* Some initializations */
   for (i = 0; i < N; i++)
     a[i] = b[i] = i * 1.0;
+    
   chunk = CHUNKSIZE;
-
+  //private: every thread has its own local variable
+  //shared: well all of them are shared 
   #pragma omp parallel for shared(a, b, c, chunk) private(i, tid) \
               schedule(static, chunk)
-  {
     tid = omp_get_thread_num();
+    //outside the explicit loop
+    //incorrect placement of brackets
     for (i = 0; i < N; i++) {
+      //tid = omp_get_thread_num();
       c[i] = a[i] + b[i];
       printf("tid= %d i= %d c[i]= %f\n", tid, i, c[i]);
     }
-  } /* end of parallel for construct */
+ /* end of parallel for construct */
+  return 0;
 }

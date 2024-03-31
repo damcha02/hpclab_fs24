@@ -8,6 +8,8 @@
 #include "consts.h"
 #include "pngwriter.h"
 #include "walltime.h"
+// include openmp    
+#include <omp.h>
 
 int main(int argc, char **argv) {
   png_data *pPng = png_create(IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -23,14 +25,20 @@ int main(int argc, char **argv) {
 
   double time_start = walltime();
   // do the calculation
-  cy = MIN_Y;
+
+  //parallelize
+  #pragma omp parallel for reduction(+:nTotalIterationsCount) private(cy, cx, x, y, x2, y2, n) shared(pPng)
+  {
+  
   for (j = 0; j < IMAGE_HEIGHT; j++) {
-    cx = MIN_X;
-    for (i = 0; i < IMAGE_WIDTH; i++) {
-      x = cx;
-      y = cy;
-      x2 = x * x;
-      y2 = y * y;
+       cy = MIN_Y + j * fDeltaY;
+    
+       for (i = 0; i < IMAGE_WIDTH; i++) {
+              cx = MIN_X + i *fDeltaX;
+              x = cx;
+              y = cy;
+              x2 = x * x;
+              y2 = y * y;
       // compute the orbit z, f(z), f^2(z), f^3(z), ...
       // count the iterations until the orbit leaves the circle |z|=2.
       // stop if the number of iterations exceeds the bound MAX_ITERS.
@@ -47,43 +55,36 @@ int main(int argc, char **argv) {
        // end for
 //----------------------------------------------------------------------------------
 
-      int n = 0;
-      // TODO
-      // >>>>>>>> CODE IS MISSING
+              int n = 0;
+       // TODO
+       // >>>>>>>> CODE IS MISSING
        //base case to check if the orbit z is in the radius
-       double z = 0.0;
-       // if (z >= 4){
-       //        return;
-       // }
-       //z = x + iy
-       //c = cx + icy;
-       //x = cx
-       //y = cy
-       //x2 = x * x
-       //y2 = y * y
-       //want to update cx and cy 
+              double z = 0.0;
+       
+       
+              while (x2 + y2 < 4 && n < MAX_ITERS){
+                     double new_x = x2 - y2 + cx;
+                     double new_y = 2*x*y + cy;
+                     x = new_x;
+                     y = new_y;
 
-       while (x2 + y2 < 4 && n < MAX_ITERS){
-              double new_x = x2 - y2 + cx;
-              double new_y = 2*x*y + cy;
-              x = new_x;
-              y = new_y;
+                     x2 = x * x; //update x2
+                     y2 = y * y; //update y2
 
-              x2 = x * x; //update x2
-              y2 = y * y; //update y2
-
-              ++n;
-       }
-       nTotalIterationsCount += n;
+                     ++n;
+              }
+       
+              nTotalIterationsCount += n;
 
       // <<<<<<<< CODE IS MISSING
       // n indicates if the point belongs to the mandelbrot set
       // plot the number of iterations at point (i, j)
-      int c = ((long)n * 255) / MAX_ITERS;
-      png_plot(pPng, i, j, c, c, c);
-      cx += fDeltaX;
-    }
-    cy += fDeltaY;
+              int c = ((long)n * 255) / MAX_ITERS;
+              png_plot(pPng, i, j, c, c, c);
+              // cx += fDeltaX;
+       }
+       // cy += fDeltaY;
+  }
   }
   double time_end = walltime();
 

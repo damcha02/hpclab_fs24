@@ -10,11 +10,21 @@
 
 # Load some modules & list loaded modules
 module load gcc
+module load python/3.11.6
+
 module list
 
 # Compile
 make clean
 make
+
+echo "-----------------------------------------------"
+#Run the program for reference 
+# dont need threads here
+echo "Running Pi SERIAL for reference and to compare"
+./pi_serial
+echo "-----------------------------------------------"
+
 
 # Run the program for OMP_NUM_THREADS equal to 1, 2, 4, 8, ..., 64, 128
 for ((i=0; i<=7; i++))
@@ -23,6 +33,7 @@ do
   echo "Running Pi CRITICAL with OMP_NUM_THREADS=$OMP_NUM_THREADS"
   export OMP_NUM_THREADS
   ./pi_omp_critical
+  echo "-----------------------------------------------"
 done
 
 # Run the program for OMP_NUM_THREADS equal to 1, 2, 4, 8, ..., 64, 128
@@ -32,4 +43,8 @@ do
   echo "Running Pi REDUCTION with OMP_NUM_THREADS=$OMP_NUM_THREADS"
   export OMP_NUM_THREADS
   ./pi_omp_reduction
+  echo "-----------------------------------------------"
 done
+
+
+python3 plot_scaling.py

@@ -22,10 +22,17 @@ int main(int argc, char *argv[]) {
     }
     printf("Thread %d is starting...\n", tid);
 
-#pragma omp barrier
+#pragma omp barrier //unnecessary 
+//cool thing though
 
     /* do some work */
-    total = 0.0;
+    total = 0.0; //this is a shared variable but...
+    
+    //the threads are dynamically assignent always in chunks of size 10
+    //and the for loop is split up into different threads
+    //the variable stays shared across all threads 
+    //leading to a race condition 
+    //can be solved using reduction or critical directive 
     #pragma omp for schedule(dynamic, 10)
     for (i = 0; i < 1000000; i++)
       total = total + i * 1.0;

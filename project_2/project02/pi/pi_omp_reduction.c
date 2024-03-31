@@ -27,7 +27,13 @@ int main(int argc, char *argv[]) {
   pi = sum*h;
   double time = walltime() - time_start;
 
-  printf("pi = \%.15f, N = %9d, time = %.8f secs\n", pi, N, time);
+  printf("pi = \%.15f, N = %9ld, time = %.8f secs\n", pi, N, time);
+
+  #pragma omp parallel
+  #pragma omp master //can use single instead of master
+  {
+    printf("nUmBeR oF tHrEAdS: %d\n", omp_get_num_threads());
+  }
 
   return 0;
 }

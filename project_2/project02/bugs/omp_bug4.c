@@ -34,3 +34,9 @@ int main(int argc, char *argv[]) {
 
   } /* All threads join master thread and disband */
 }
+
+//i guess the stacksize is too small to handle all that 
+//simple fix 
+//ulimit -s 81920 into the terminal
+//better fix 
+//dynamic memory allocation --> malloc

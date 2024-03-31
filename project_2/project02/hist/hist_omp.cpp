@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <omp.h>
+
 
 #define VEC_SIZE 1000000000
 #define BINS 16
@@ -33,9 +35,27 @@ int main() {
   }
 
   // TODO Parallelize the histogram computation
+
   time_start = walltime();
-  for (long i = 0; i < VEC_SIZE; ++i) {
-    dist[vec[i]]++;
+
+  #pragma omp parallel
+  {
+    //initialize a local/private histogram for each thread
+    //set all bins to 0
+    long local_dist[BINS];
+    for(int i = 0; i < BINS; ++i){
+      local_dist[i] = 0;
+    }
+    #pragma omp for nowait //distribute iterations among threads
+    for (long i = 0; i < VEC_SIZE; ++i) {
+      local_dist[vec[i]]++;
+    }
+
+    #pragma omp critical //add/merge all the local/private histograms to the global histogram
+    for(int i = 0; i < BINS; ++i){
+      dist[i] += local_dist[i];
+    }
+    
   }
   time_end = walltime();
 
@@ -45,5 +65,11 @@ int main() {
   }
   std::cout << "Time: " << time_end - time_start << " sec" << std::endl;
 
+  //just imagine how much other stuff i have wrong because i have never included this to check and just accepted it, crazy
+  #pragma omp parallel
+  #pragma omp master //can use single instead of master
+  {
+    std::cout << "Number of threads: " <<omp_get_num_threads() << std::endl;
+  }
   return 0;
 }

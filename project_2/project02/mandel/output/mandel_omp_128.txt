@@ -1,0 +1,7 @@
+Total time:                 265.553 seconds
+Image size:                 4096 x 4096 = 16777216 Pixels
+Total number of iterations: 113638786651
+Avg. time per pixel:        1.58282e-05 seconds
+Avg. time per iteration:    2.33682e-09 seconds
+Iterations/second:          4.27933e+08
+MFlop/s:                    3423.46
