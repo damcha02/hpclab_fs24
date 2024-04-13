@@ -3,13 +3,19 @@
 
 #include <iostream>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <cblas.h>
 
-#include "linalg.h"
+
+
+#include "linalg.h" 
 #include "operators.h"
 #include "stats.h"
 #include "data.h"
+
+
 
 namespace linalg {
 
@@ -57,20 +63,27 @@ double hpc_dot(Field const& x, Field const& y, const int N) {
 
 // computes the 2-norm of x
 // x is a vector on length N
+//square root of the sum of the squared entries
 double hpc_norm2(Field const& x, const int N) {
     double result = 0;
 
-    //TODO
+    for (int i = 0; i < N; ++i){
+        result += x[i] * x[i];
+    }
 
     return sqrt(result);
 }
 
 // sets entries in a vector to value
 // x is a vector on length N
-// value is a scalar
+// value is a scalar   
 void hpc_fill(Field& x, const double value, const int N) {
-    //TODO
+    // tried to use for each, but gave up
+    // std::for_each(x.data(), x.data() + x.length(), [value](double& n) {n = value;});
 
+    for(int i = 0; i < N; ++i){
+        x[i] = value;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +94,14 @@ void hpc_fill(Field& x, const double value, const int N) {
 // x and y are vectors on length N
 // alpha is a scalar
 void hpc_axpy(Field& y, const double alpha, Field const& x, const int N) {
-    //TODO
+    // without blas
+    // for(int i = 0; i < N; ++i)
+    //     y[i] += alpha * x[i];
+
+    // with blas
+    
+    
+
 }
 
 // computes y = x + alpha*(l-r)
